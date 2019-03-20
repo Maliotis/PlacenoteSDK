@@ -620,19 +620,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
   func session(_ session: ARSession, didUpdate: ARFrame) {
     let image: CVPixelBuffer = didUpdate.capturedImage
     let pose: matrix_float4x4 = didUpdate.camera.transform
-    let cameraTransform = SCNMatrix4(didUpdate.camera.transform)
-    let cameraUp = SCNVector3(cameraTransform.m11,
-                              cameraTransform.m22,
-                              cameraTransform.m33)
+    let columns = didUpdate.camera.transform.columns
+    let cameraUp = SCNVector3Make(columns.3.x, columns.3.y, columns.3.z)
     
-//    for item in shapeManager.shapeNodes {
-//      let dist = calculateDistanceCameraToObject(from: cameraUp, to: item.position) * 100
-//      if dist > 180 {
-//        item.isHidden = false
-//      } else {
-//        item.isHidden = true
-//      }
-//    }
+    for item in shapeManager.shapeNodes {
+      
+      let dist = calculateDistanceCameraToObject(from: cameraUp, to: item.position) * 100
+      if dist > 150 && dist < 320 {
+        item.isHidden = false
+      } else {
+        item.isHidden = true
+      }
+    }
 
     if (!LibPlacenote.instance.initialized()) {
       print("SDK is not initialized")
@@ -653,6 +652,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     
     return sqrt( (x * x) + (y * y) + (z * z))
   }
+  
 
 
   //Informs the delegate of changes to the quality of ARKit's device position tracking.
