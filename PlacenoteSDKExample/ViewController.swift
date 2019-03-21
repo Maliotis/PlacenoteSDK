@@ -484,6 +484,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
           }
           LibPlacenote.instance.startSession(extend: false)
           
+          //Try to show model on first anchor...
+//          let position = self.shapeManager.shapeNodes.first?.position
+//          let pivot = self.shapeManager.shapeNodes.first?.pivot
+//          let rotation = self.shapeManager.shapeNodes.first?.rotation
+//          let modelSCN = SCNScene(named: "ar.scnassets/Walking.scn")
+//          let nodeModel = modelSCN?.rootNode
+//          nodeModel?.position = position!
+//          nodeModel?.rotation = rotation!
+//          nodeModel?.pivot = pivot!
+//          self.scnView.scene.rootNode.addChildNode(nodeModel!)
+          
+          
           
           if (self.reportDebug) {
             LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
@@ -551,7 +563,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
       let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
       //shapeManager.spawnRandomShape(position: pose.position())
       shapeManager.spawnSphereShape(position: pose.position())
-      
 
     }
   }
